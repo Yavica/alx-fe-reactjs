@@ -8,7 +8,7 @@ import Navbar from './Navbar'; // NEW: Import the Navbar component
 
 // Import the page components
 import Home from './Home';
-import About from './About';
+import About from '../About';
 import Services from './Services';
 import Contact from './Contact';
 
