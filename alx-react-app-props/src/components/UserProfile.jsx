@@ -1,4 +1,4 @@
-// src/components/UserProfile.jsx
+ // src/components/UserProfile.jsx
 
 // Define the UserProfile functional component.
 // It accepts a single argument, 'props', which is an object.
