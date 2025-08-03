@@ -1,5 +1,6 @@
 // src/components/Search.jsx
-import React, { useState } from 'react'; // Import useState hook
+import React, { useState } from 'react';
+import { fetchUserData } from '../services/githubService'; // Import the API service function
 
 function Search() {
   // State to store the value of the search input
@@ -20,51 +21,47 @@ function Search() {
   const handleSearchSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior (page reload)
 
+    // Ensure username is not empty before searching
+    if (!username.trim()) {
+      setError('Please enter a GitHub username.');
+      setUserData(null);
+      return;
+    }
+
     // Reset states before a new search
     setLoading(true);
     setUserData(null);
     setError(null);
 
-    // For now, just log the username. We'll integrate API call here next.
-    console.log('Searching for:', username);
-
-    // Simulate an API call for demonstration (remove later)
-    setTimeout(() => {
-      setLoading(false);
-      // Simulate success or error for now
-      if (username === 'testuser') { // Example: 'testuser' is found
-        setUserData({
-          login: 'testuser',
-          avatar_url: 'https://via.placeholder.com/150/0000FF/FFFFFF?text=Test',
-          html_url: 'https://github.com/testuser',
-          name: 'Test User',
-          location: 'Simulated City',
-          public_repos: 5
-        });
-      } else if (username === 'error') { // Example: 'error' triggers an error
-        setError('Looks like we cant find the user.');
-      } else { // Default not found
-        setError('Looks like we cant find the user.');
-      }
-    }, 1500); // Simulate network delay
+    try {
+      // Call the actual API service function
+      const data = await fetchUserData(username);
+      setUserData(data); // Set the fetched user data
+    } catch (err) {
+      // Set the error message from the API service
+      setError(err.message);
+    } finally {
+      setLoading(false); // Always set loading to false after the operation
+    }
   };
 
   return (
     <div className="w-full max-w-md p-4 bg-white rounded-lg shadow-md">
-      <form onSubmit={handleSearchSubmit} className="flex mb-4"> {/* Attach onSubmit handler */}
+      <form onSubmit={handleSearchSubmit} className="flex mb-4">
         <input
           type="text"
           placeholder="Enter GitHub username..."
-          value={username} // Bind input value to state
-          onChange={handleInputChange} // Attach onChange handler
+          value={username}
+          onChange={handleInputChange}
           className="flex-grow p-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          disabled={loading} // Disable input while loading
         />
         <button
           type="submit"
           className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-r-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           disabled={loading} // Disable button while loading
         >
-          {loading ? 'Searching...' : 'Search'} {/* Change button text based on loading */}
+          {loading ? 'Searching...' : 'Search'}
         </button>
       </form>
 
@@ -83,6 +80,8 @@ function Search() {
             src={userData.avatar_url} 
             alt={`${userData.login}'s avatar`} 
             className="w-16 h-16 rounded-full" 
+            // Add onerror to handle broken image links gracefully
+            onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/150x150/CCCCCC/000000?text=No+Avatar"; }}
           />
           <div>
             <h2 className="text-xl font-semibold text-gray-800">{userData.name || userData.login}</h2>
