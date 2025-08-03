@@ -79,27 +79,59 @@ function Search() {
       )}
 
       {userData && (
-        <div className="mt-4 p-4 border border-gray-200 rounded-lg flex items-center space-x-4">
+        <div className="mt-4 p-4 border border-gray-200 rounded-lg flex flex-col items-center space-y-4">
           <img 
             src={userData.avatar_url} 
             alt={`${userData.login}'s avatar`} 
-            className="w-16 h-16 rounded-full" 
+            className="w-24 h-24 rounded-full border-2 border-blue-500 shadow-lg" 
             // Add onerror to handle broken image links gracefully
             onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/150x150/CCCCCC/000000?text=No+Avatar"; }}
           />
-          <div>
-            <h2 className="text-xl font-semibold text-gray-800">{userData.name || userData.login}</h2>
-            <p className="text-gray-600">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-gray-800">{userData.name || userData.login}</h2>
+            <p className="text-blue-600 hover:underline mb-2">
               <a 
                 href={userData.html_url} 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-blue-500 hover:underline"
               >
-                @{userData.login} on GitHub
+                @{userData.login}
               </a>
             </p>
-            {/* We'll add more details like location/repos in Task 2 */}
+
+            {/* New: Display Bio if available */}
+            {userData.bio && (
+              <p className="text-gray-700 text-sm italic mb-2">{userData.bio}</p>
+            )}
+
+            {/* New: Display Location if available */}
+            {userData.location && (
+              <p className="text-gray-600 text-sm flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                </svg>
+                {userData.location}
+              </p>
+            )}
+
+            <div className="flex justify-center space-x-6 mt-4">
+              {/* New: Display Public Repositories */}
+              <div className="text-center">
+                <p className="text-lg font-bold text-gray-800">{userData.public_repos}</p>
+                <p className="text-gray-600 text-sm">Repositories</p>
+              </div>
+              {/* New: Display Followers */}
+              <div className="text-center">
+                <p className="text-lg font-bold text-gray-800">{userData.followers}</p>
+                <p className="text-gray-600 text-sm">Followers</p>
+              </div>
+              {/* New: Display Following */}
+              <div className="text-center">
+                <p className="text-lg font-bold text-gray-800">{userData.following}</p>
+                <p className="text-gray-600 text-sm">Following</p>
+              </div>
+            </div>
           </div>
         </div>
       )}
