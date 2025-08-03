@@ -1,141 +1,110 @@
-// src/components/Search.jsx
-import React, { useState } from 'react';
-import { fetchUserData, fetchUserRepositories } from '../services/githubService';
+import { useState } from "react";
+import { fetchUserData, advancedUserSearch } from "../services/githubService";
 
 function Search() {
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
+  const [location, setLocation] = useState("");
+  const [minRepos, setMinRepos] = useState("");
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [userData, setUserData] = useState(null);
-  const [userRepos, setUserRepos] = useState([]);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
 
-  const handleInputChange = (e) => {
-    setUsername(e.target.value);
-  };
-
-  const handleSearchSubmit = async (e) => {
+  const handleSearch = async (e, searchType) => {
     e.preventDefault();
-
-    const trimmed = username.trim();
-    if (!trimmed) {
-      setError('Please enter a GitHub username.');
-      setUserData(null);
-      setUserRepos([]);
-      return;
-    }
-
     setLoading(true);
-    setError(null);
-    setUserData(null);
-    setUserRepos([]);
-
+    setError("");
     try {
-      const data = await fetchUserData(trimmed);
-      const repos = await fetchUserRepositories(trimmed);
-
-      setUserData(data);
-      setUserRepos(repos);
-    } catch (err) {
-      const isUserNotFound = err.message === 'User not found.';
-      setError(isUserNotFound ? 'Looks like we can’t find the user.' : 'Something went wrong. Please try again.');
+      let results = [];
+      if (searchType === "basic") {
+        const user = await fetchUserData(username);
+        results = [user]; // Basic search returns one user
+      } else {
+        results = await advancedUserSearch(location, minRepos);
+        if (results.length === 0) setError("No users found with those criteria.");
+      }
+      setUsers(results);
+    } catch {
+      setError("Unable to find the user(s).");
+      setUsers([]);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <form
-        onSubmit={handleSearchSubmit}
-        className="flex flex-col sm:flex-row gap-2 mb-6"
-        aria-label="GitHub user search form"
-      >
+    <div className="max-w-xl mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4 text-center">GitHub User Search</h1>
+
+      {/* Basic Search */}
+      <form onSubmit={(e) => handleSearch(e, "basic")} className="mb-6 space-y-2">
         <input
           type="text"
+          placeholder="Search by username"
           value={username}
-          onChange={handleInputChange}
-          placeholder="Enter GitHub username"
-          aria-label="GitHub username"
-          disabled={loading}
-          className="flex-grow px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          onChange={(e) => setUsername(e.target.value)}
+          className="w-full px-4 py-2 border rounded"
         />
         <button
           type="submit"
-          disabled={loading}
-          className="px-6 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
         >
-          {loading ? 'Searching...' : 'Search'}
+          Search Username
         </button>
       </form>
 
-      {loading && (
-        <p className="text-center text-blue-500 animate-pulse">Fetching data...</p>
-      )}
+      {/* Advanced Search */}
+      <form onSubmit={(e) => handleSearch(e, "advanced")} className="mb-6 space-y-2">
+        <input
+          type="text"
+          placeholder="Location"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          className="w-full px-4 py-2 border rounded"
+        />
+        <input
+          type="number"
+          placeholder="Min Repos"
+          value={minRepos}
+          onChange={(e) => setMinRepos(e.target.value)}
+          className="w-full px-4 py-2 border rounded"
+        />
+        <button
+          type="submit"
+          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
+        >
+          Search by Location + Repos
+        </button>
+      </form>
 
-      {error && (
-        <p className="text-center text-red-500">{error}</p>
-      )}
+      {/* Loading State */}
+      {loading && <p className="text-center text-blue-500">Loading...</p>}
 
-      {userData && (
-        <section className="text-center mb-6">
-          <img
-            src={userData.avatar_url}
-            alt={`${userData.login}'s avatar`}
-            className="w-24 h-24 mx-auto rounded-full border-2 border-blue-500 shadow-md"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = 'https://placehold.co/150x150/cccccc/000000?text=No+Avatar';
-            }}
-          />
-          <h2 className="text-2xl font-bold mt-4 text-gray-800">
-            {userData.name || userData.login}
-          </h2>
-          <a
-            href={userData.html_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 hover:underline block mt-1"
-          >
-            @{userData.login}
-          </a>
+      {/* Error Message */}
+      {error && <p className="text-center text-red-500">{error}</p>}
 
-          {userData.bio && (
-            <p className="text-sm italic text-gray-700 mt-2">{userData.bio}</p>
-          )}
-
-          {userData.location && (
-            <p className="flex items-center justify-center text-sm text-gray-600 mt-1">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-              </svg>
-              {userData.location}
-            </p>
-          )}
-        </section>
-      )}
-
-      {userRepos.length > 0 && (
-        <section aria-label="User repositories">
-          <h3 className="text-xl font-semibold text-gray-800 mb-3">Repositories</h3>
-          <ul className="space-y-3">
-            {userRepos.map((repo) => (
-              <li key={repo.id} className="bg-gray-100 p-4 rounded-md shadow-sm">
-                <a
-                  href={repo.html_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 font-medium hover:underline"
-                >
-                  {repo.name}
-                </a>
-                {repo.description && (
-                  <p className="text-sm text-gray-700 mt-1">{repo.description}</p>
-                )}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+      {/* Display Results */}
+      <div className="space-y-4">
+        {users.map((user) => (
+          <div key={user.id || user.login} className="p-4 border rounded flex items-center gap-4">
+            <img
+              src={user.avatar_url}
+              alt={user.login}
+              className="w-16 h-16 rounded-full"
+            />
+            <div>
+              <h2 className="text-lg font-semibold">{user.login}</h2>
+              <a
+                href={user.html_url}
+                target="_blank"
+                rel="noreferrer"
+                className="text-blue-600 underline"
+              >
+                View Profile
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
