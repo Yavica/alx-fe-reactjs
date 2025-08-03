@@ -36,8 +36,8 @@ export const fetchUserData = async (username) => {
 
     // Handle specific error cases, e.g., user not found (404)
     if (error.response && error.response.status === 404) {
-      // Changed this error message to match the checker's expectation
-      throw new Error('Looks like we cant find the user.'); 
+      // Reverted to original, more semantically correct error message
+      throw new Error('User not found.'); 
     } else if (error.response && error.response.status === 403) {
       // Rate limit exceeded or invalid token
       throw new Error('API rate limit exceeded or invalid token. Please try again later or check your token.');
