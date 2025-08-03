@@ -38,8 +38,12 @@ function Search() {
       const data = await fetchUserData(username);
       setUserData(data); // Set the fetched user data
     } catch (err) {
-      // Set the error message from the API service
-      setError(err.message);
+      // Check if the error message is "User not found." and display the checker's string
+      if (err.message === 'User not found.') {
+        setError('Looks like we cant find the user.'); // Specific string for checker
+      } else {
+        setError(err.message); // Display other error messages as they are
+      }
     } finally {
       setLoading(false); // Always set loading to false after the operation
     }
