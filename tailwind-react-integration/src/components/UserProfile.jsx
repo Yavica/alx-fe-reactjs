@@ -13,12 +13,12 @@ function UserProfile() {
         </div>
 
         {/* Heading */}
-        <h2 className="text-xl text-blue-800 my-4 font-bold text-center">
+        <h2 className="text-lg md:text-xl text-blue-800 my-4 font-bold text-center">
           Jane Doe
         </h2>
 
         {/* Paragraph */}
-        <p className="text-base text-gray-600 text-center">
+        <p className="text-sm md:text-base text-gray-600 text-center">
           Passionate frontend developer focused on responsive UI, accessibility,
           and building delightful user experiences using React and Tailwind CSS.
         </p>
