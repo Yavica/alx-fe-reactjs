@@ -1,7 +1,7 @@
 function UserProfile() {
   return (
-    // *** Container with the exact classes the checker expects ***
-    <div className="bg-gray-100 p-8 mx-auto my-20 max-w-md">
+    // Outer container now includes *all* required classes, including max-w-sm
+    <div className="bg-gray-100 p-8 mx-auto my-20 max-w-sm">
       <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 p-4">
         {/* Header */}
         <div className="h-20 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center rounded-t-md">
@@ -13,7 +13,6 @@ function UserProfile() {
           <img
             src="https://randomuser.me/api/portraits/women/65.jpg"
             alt="User avatar"
-            // includes rounded-full, w-28, h-28, mx-auto, object-cover, border and shadow
             className="w-28 h-28 rounded-full border-4 border-white shadow-md object-cover mx-auto"
           />
         </div>
