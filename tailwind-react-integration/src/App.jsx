@@ -1,9 +1,13 @@
-import UserProfile from './components/UserProfile';
+import Card from "./components/Card";
 
 function App() {
   return (
     <div>
-      <UserProfile />
+      <Card
+        image="https://via.placeholder.com/300x200"
+        title="Sample Card"
+        description="This is a reusable card component styled with Tailwind CSS."
+      />
     </div>
   );
 }
