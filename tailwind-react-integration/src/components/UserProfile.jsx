@@ -8,7 +8,7 @@ function UserProfile() {
           <img
             src="https://randomuser.me/api/portraits/women/65.jpg"
             alt="User avatar"
-            className="w-36 h-36 rounded-full border-4 border-white shadow-md object-cover"
+            className="sm:w-24 sm:h-24 md:w-36 md:h-36 rounded-full border-4 border-white shadow-md object-cover"
           />
         </div>
 
