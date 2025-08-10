@@ -1,6 +1,6 @@
 function UserProfile() {
   return (
-    // Outer container now includes *all* required classes, including max-w-sm
+    // Outer container with all required container classes
     <div className="bg-gray-100 p-8 mx-auto my-20 max-w-sm">
       <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 p-4">
         {/* Header */}
@@ -13,7 +13,7 @@ function UserProfile() {
           <img
             src="https://randomuser.me/api/portraits/women/65.jpg"
             alt="User avatar"
-            className="w-28 h-28 rounded-full border-4 border-white shadow-md object-cover mx-auto"
+            className="w-36 h-36 rounded-full border-4 border-white shadow-md object-cover mx-auto"
           />
         </div>
 
