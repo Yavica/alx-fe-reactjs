@@ -1,6 +1,6 @@
 function Card({ image, title, description }) {
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 max-w-sm mx-auto my-4">
+    <div className="bg-white rounded-lg shadow-md p-6 max-w-sm mx-auto my-4 sm:p-4 md:p-8">
       <img
         src={image}
         alt={title}
