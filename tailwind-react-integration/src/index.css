@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 /* Optional global styles */
 :root {
@@ -19,7 +19,7 @@ a {
   @apply font-medium text-indigo-500 no-underline;
 }
 
-a:hover {
+a:hover {  
   @apply text-indigo-400;
 }
 
