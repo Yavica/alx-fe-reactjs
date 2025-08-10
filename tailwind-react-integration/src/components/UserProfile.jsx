@@ -19,13 +19,13 @@ function UserProfile() {
 
         {/* Content */}
         <div className="text-center mt-4 px-4">
-          {/* Heading (styled exactly as checker requires) */}
+          {/* Heading */}
           <h2 className="text-xl text-blue-800 my-4 font-bold">
             Jane Doe
           </h2>
 
-          {/* Paragraph (styled) */}
-          <p className="text-gray-600 text-sm leading-relaxed mt-2 text-center">
+          {/* Paragraph (now with text-base) */}
+          <p className="text-base text-gray-600 text-sm leading-relaxed mt-2 text-center">
             Passionate frontend developer focused on responsive UI, accessibility,
             and building delightful user experiences using React and Tailwind CSS.
           </p>
