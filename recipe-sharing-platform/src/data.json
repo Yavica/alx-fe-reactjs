@@ -3,24 +3,80 @@
     "id": 1,
     "title": "Spaghetti Carbonara",
     "summary": "A classic Italian pasta dish with eggs, cheese, bacon, and black pepper.",
-    "image": "https://via.placeholder.com/300x200"
+    "image": "https://via.placeholder.com/300x200",
+    "ingredients": [
+      "200g spaghetti",
+      "100g pancetta",
+      "2 large eggs",
+      "50g grated Parmesan",
+      "Black pepper"
+    ],
+    "instructions": [
+      "Cook spaghetti according to package instructions.",
+      "Fry pancetta until crisp.",
+      "Whisk eggs and Parmesan together.",
+      "Combine spaghetti with pancetta and remove from heat.",
+      "Stir in egg mixture quickly.",
+      "Season with black pepper and serve."
+    ]
   },
   {
     "id": 2,
     "title": "Chicken Tikka Masala",
     "summary": "Chunks of grilled chicken (tikka) cooked in a smooth buttery & creamy tomato based gravy.",
-    "image": "https://via.placeholder.com/300x200"
+    "image": "https://via.placeholder.com/300x200",
+    "ingredients": [
+      "500g chicken breast",
+      "200ml yogurt",
+      "2 tsp garam masala",
+      "400g canned tomatoes",
+      "100ml cream"
+    ],
+    "instructions": [
+      "Marinate chicken in yogurt and garam masala for 1 hour.",
+      "Grill chicken until cooked.",
+      "Prepare sauce with tomatoes and cream.",
+      "Add grilled chicken to sauce and simmer 10 minutes.",
+      "Serve with rice or naan."
+    ]
   },
   {
     "id": 3,
     "title": "Vegetable Stir Fry",
     "summary": "A quick and healthy stir fry with fresh vegetables and a savory sauce.",
-    "image": "https://via.placeholder.com/300x200"
+    "image": "https://via.placeholder.com/300x200",
+    "ingredients": [
+      "1 red bell pepper",
+      "1 broccoli head",
+      "2 carrots",
+      "2 tbsp soy sauce",
+      "1 tbsp sesame oil"
+    ],
+    "instructions": [
+      "Chop all vegetables.",
+      "Heat sesame oil in a wok.",
+      "Add vegetables and stir-fry for 5 minutes.",
+      "Add soy sauce and cook 2 more minutes.",
+      "Serve hot with rice or noodles."
+    ]
   },
   {
     "id": 4,
     "title": "Beef Tacos",
     "summary": "Mexican-style tacos filled with seasoned beef, fresh lettuce, and cheese.",
-    "image": "https://via.placeholder.com/300x200"
+    "image": "https://via.placeholder.com/300x200",
+    "ingredients": [
+      "200g minced beef",
+      "4 taco shells",
+      "Lettuce leaves",
+      "Grated cheese",
+      "Taco seasoning"
+    ],
+    "instructions": [
+      "Cook minced beef with taco seasoning.",
+      "Warm taco shells in oven.",
+      "Fill shells with beef, lettuce, and cheese.",
+      "Serve immediately."
+    ]
   }
 ]
