@@ -20,10 +20,6 @@ export default function RecipeDetail() {
     );
   }
 
-  // Fallback for ingredients and instructions if not present in data.json
-  const ingredients = recipe.ingredients || ["Ingredient list not available"];
-  const instructions = recipe.instructions || ["Instructions not available"];
-
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <Link
@@ -39,9 +35,7 @@ export default function RecipeDetail() {
           alt={recipe.title}
           className="w-full h-64 object-cover rounded-lg mb-6"
         />
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          {recipe.title}
-        </h1>
+        <h1 className="text-3xl font-bold text-gray-800 mb-4">{recipe.title}</h1>
         <p className="text-gray-600 mb-6">{recipe.summary}</p>
 
         <section className="mb-6">
@@ -49,7 +43,7 @@ export default function RecipeDetail() {
             Ingredients
           </h2>
           <ul className="list-disc list-inside text-gray-600">
-            {ingredients.map((item, index) => (
+            {recipe.ingredients.map((item, index) => (
               <li key={index}>{item}</li>
             ))}
           </ul>
@@ -60,8 +54,8 @@ export default function RecipeDetail() {
             Instructions
           </h2>
           <ol className="list-decimal list-inside text-gray-600">
-            {instructions.map((step, index) => (
-              <li key={index} className="mb-2">{step}</li>
+            {recipe.instructions.map((step, index) => (
+              <li key={index}>{step}</li>
             ))}
           </ol>
         </section>
