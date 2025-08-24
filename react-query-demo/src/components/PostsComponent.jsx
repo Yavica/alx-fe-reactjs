@@ -1,63 +1,59 @@
-import { useQuery } from 'react-query';
+// src/components/PostsComponent.jsx
+import React from "react";
+import { useQuery } from "react-query";
 
-async function fetchPosts() {
-  const res = await fetch('https://jsonplaceholder.typicode.com/posts');
-  if (!res.ok) throw new Error('Network response was not ok');
-  return res.json();
-}
+const fetchPosts = async () => {
+  const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
+};
 
-export default function PostsComponent() {
+const PostsComponent = () => {
   const {
     data,
     error,
     isLoading,
     isError,
-    isFetching,
     refetch,
-  } = useQuery('posts', fetchPosts, {
-    keepPreviousData: true,
+  } = useQuery("posts", fetchPosts, {
+    // React Query caching strategies
+    staleTime: 1000 * 60 * 5, // 5 minutes before data is considered stale
+    cacheTime: 1000 * 60 * 10, // 10 minutes before inactive data is garbage-collected
+    refetchOnWindowFocus: false, // prevent auto-refetch when window regains focus
   });
 
-  if (isLoading) return <p>Loading posts…</p>;
-  if (isError) return <p style={{ color: 'crimson' }}>Error: {error.message}</p>;
+  if (isLoading) {
+    return <p>Loading posts...</p>;
+  }
+
+  if (isError) {
+    return <p>Error: {error.message}</p>;
+  }
 
   return (
-    <div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-        <button
-          onClick={() => refetch()}
-          disabled={isFetching}
-          style={{
-            padding: '6px 10px',
-            border: '1px solid #ccc',
-            background: isFetching ? '#f3f4f6' : 'white',
-            cursor: isFetching ? 'not-allowed' : 'pointer',
-          }}
-        >
-          {isFetching ? 'Refreshing…' : 'Refetch'}
-        </button>
-        <span style={{ fontSize: 12, color: '#666' }}>
-          Showing {data?.length ?? 0} posts (cached when fresh)
-        </span>
-      </div>
-
-      <ul style={{ display: 'grid', gap: 12, listStyle: 'none', padding: 0 }}>
+    <div className="p-4">
+      <h2 className="text-xl font-bold mb-2">Posts</h2>
+      <button
+        onClick={() => refetch()}
+        className="bg-blue-500 text-white px-3 py-1 rounded mb-4"
+      >
+        Refetch Posts
+      </button>
+      <ul className="space-y-2">
         {data.slice(0, 10).map((post) => (
           <li
             key={post.id}
-            style={{
-              border: '1px solid #eee',
-              borderRadius: 8,
-              padding: 12,
-              background: 'white',
-            }}
+            className="border p-2 rounded shadow-sm hover:bg-gray-100"
           >
-            <div style={{ fontWeight: 600, marginBottom: 6 }}>{post.title}</div>
-            <div style={{ color: '#555', fontSize: 14 }}>{post.body}</div>
-            <div style={{ marginTop: 8, fontSize: 12, color: '#888' }}>Post #{post.id}</div>
+            <h3 className="font-semibold">{post.title}</h3>
+            <p>{post.body}</p>
           </li>
         ))}
       </ul>
     </div>
   );
-}
+};
+
+export default PostsComponent;
