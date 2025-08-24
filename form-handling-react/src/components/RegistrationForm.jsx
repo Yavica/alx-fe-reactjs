@@ -1,53 +1,93 @@
-// src/components/RegistrationForm.jsx
-import { useState } from "react";
+import React, { useState } from "react";
 
-export default function RegistrationForm() {
+const RegistrationForm = () => {
+  // State for form fields
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // State for errors
+  const [errors, setErrors] = useState({});
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", { username, email, password });
+
+    // Reset errors before validating
+    const newErrors = {};
+
+    if (!username) {
+      newErrors.username = "Username is required";
+    }
+
+    if (!email) {
+      newErrors.email = "Email is required";
+    }
+
+    if (!password) {
+      newErrors.password = "Password is required";
+    }
+
+    setErrors(newErrors);
+
+    // Submit only if no errors
+    if (Object.keys(newErrors).length === 0) {
+      alert("Form submitted successfully!");
+      // Clear the form after submit
+      setUsername("");
+      setEmail("");
+      setPassword("");
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 border rounded-md">
-      <h2 className="text-lg font-bold mb-2">Controlled Components Form</h2>
+    <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-10 p-6 border rounded-lg shadow">
+      <h2 className="text-xl font-bold mb-4">Registration Form</h2>
 
-      <div className="mb-2">
-        <label className="block mb-1">Username:</label>
+      {/* Username */}
+      <div className="mb-4">
+        <label className="block font-medium mb-1">Username</label>
         <input
           type="text"
-          value={username}           // checker expects this
+          value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className="border px-2 py-1 w-full"
+          className="w-full px-3 py-2 border rounded"
         />
+        {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
       </div>
 
-      <div className="mb-2">
-        <label className="block mb-1">Email:</label>
+      {/* Email */}
+      <div className="mb-4">
+        <label className="block font-medium mb-1">Email</label>
         <input
           type="email"
-          value={email}              // checker expects this
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border px-2 py-1 w-full"
+          className="w-full px-3 py-2 border rounded"
         />
+        {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
       </div>
 
-      <div className="mb-2">
-        <label className="block mb-1">Password:</label>
+      {/* Password */}
+      <div className="mb-4">
+        <label className="block font-medium mb-1">Password</label>
         <input
           type="password"
-          value={password}           // checker expects this
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border px-2 py-1 w-full"
+          className="w-full px-3 py-2 border rounded"
         />
+        {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
       </div>
 
-      <button type="submit" className="bg-blue-500 text-white px-3 py-1 rounded">
-        Submit
+      {/* Submit Button */}
+      <button
+        type="submit"
+        className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+      >
+        Register
       </button>
     </form>
   );
-}
+};
+
+export default RegistrationForm;
