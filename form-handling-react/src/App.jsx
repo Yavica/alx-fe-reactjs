@@ -1,13 +1,21 @@
-// src/App.jsx
-import RegistrationForm from "./components/RegistrationForm";
-import FormikForm from "./components/FormikForm";
+import React from 'react'
+import RegistrationForm from './components/RegistrationForm'
+import FormikForm from './components/formikForm'
 
-export default function App() {
+function App() {
   return (
-    <div className="max-w-md mx-auto mt-10">
-      <h1 className="text-2xl font-bold mb-4 text-center">Forms in React</h1>
+    <div style={{ padding: '2rem', fontFamily: 'Arial, sans-serif' }}>
+      <h1>User Registration</h1>
+
+      <h2>Controlled Components Form</h2>
       <RegistrationForm />
+
+      <hr style={{ margin: '2rem 0' }} />
+
+      <h2>Formik Form</h2>
       <FormikForm />
     </div>
-  );
+  )
 }
+
+export default App
