@@ -1,28 +1,21 @@
-// src/App.jsx
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
+import Profile from "./components/Profile";
+import BlogPost from "./components/BlogPost";
 
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Profile from "./pages/Profile";
-
-function App() {
+const App = () => {
   return (
     <Router>
-      <div className="p-4">
-        <nav className="mb-4">
-          <Link to="/" className="mr-4">Home</Link>
-          <Link to="/about" className="mr-4">About</Link>
-          <Link to="/profile">Profile</Link>
-        </nav>
+      <Routes>
+        {/* Static routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/profile/*" element={<Profile />} />
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/profile/*" element={<Profile />} />
-        </Routes>
-      </div>
+        {/* Dynamic route */}
+        <Route path="/blog/:id" element={<BlogPost />} />
+      </Routes>
     </Router>
   );
-}
+};
 
 export default App;
